@@ -1,0 +1,21 @@
+{
+    "name": "dragonYing/lovecatwx",
+    "description": "lovely cat weixin sdk",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "fangyingzhong",
+            "email": "6244168796@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "dragonYing\\lovecatwx\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0.0"
+    }
+}

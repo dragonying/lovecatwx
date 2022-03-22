@@ -153,14 +153,14 @@ abstract class  WxRobot extends WxMsg
         $request = $this->robotMsg;//机器人消息
         //事件存在
         if (in_array($request['event'], self::EVENTS)) {
-            $this->do($request);
+            $this->dealRequest($request);
         }
         //处理完事件返回要怎么做
         return $this->getParam();
     }
 
-    //自己实现
-    abstract function do($request);
+    //自己实现处理消息
+    abstract function dealRequest($request);
 
 
     /**

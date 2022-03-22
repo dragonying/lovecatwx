@@ -4,7 +4,7 @@ namespace dragonYing\lovecatwx;
 
 use dragonYing\lovecatwx\WxMsg;
 
-class WxRobot extends WxMsg
+abstract class  WxRobot extends WxMsg
 {
     private $host;//可爱猫运行服务ip
     private $port;//可爱猫运行服务端口
@@ -146,16 +146,14 @@ class WxRobot extends WxMsg
         $request = $this->robotMsg;//机器人消息
         //事件存在
         if (in_array($request['event'], self::EVENTS)) {
-            $this->do();
+            $this->do($request);
         }
         //处理完事件返回要怎么做
         return $this->getParam();
     }
 
-    public function do($request)
-    {
-
-    }
+    //自己实现
+    abstract function do($request);
 
 
     /**

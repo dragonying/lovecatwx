@@ -33,6 +33,8 @@ abstract class  WxRobot extends WxMsg
     /*返回*/
     protected $resResult = null;
 
+    static $instance = null;
+
     /**
      * @param string $host
      * @param int $port
@@ -40,16 +42,19 @@ abstract class  WxRobot extends WxMsg
      * @param string $logFile
      * @return static
      */
-    public static function init($host = '127.0.0.1', $port = 8090, $authorFile = './authorization.txt', $logFile = './wxmsg.log')
+    public static function getInstance($host = '127.0.0.1', $port = 8090, $authorFile = './authorization.txt', $logFile = './wxmsg.log')
     {
-        return new static($host, $port, $authorFile, $logFile);
+        if (!self::$instance instanceof self) {
+            self::$instance = new static($host, $port, $authorFile, $logFile);
+        }
+        return self::$instance;
     }
 
     /**
      * @param string $host
      * @param int $port
      */
-    public function __construct($host = '127.0.0.1', $port = 8090, $authorFile = './authorization.txt', $logFile = './wxmsg.log')
+    private function __construct($host = '127.0.0.1', $port = 8090, $authorFile = './authorization.txt', $logFile = './wxmsg.log')
     {
         $this->host = $host;
         $this->port = $port;
@@ -72,7 +77,8 @@ abstract class  WxRobot extends WxMsg
     /**获取返回结果
      * @return null
      */
-    public function getResult(){
+    public function getResult()
+    {
         return $this->resResult;
     }
 

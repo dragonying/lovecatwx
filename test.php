@@ -16,7 +16,7 @@ class  MyRobot extends WxRobot
 //来自可爱猫的请求
 $action = trim($_REQUEST['do'] ?? '');
 /** @var  $robot MyRobot */
-$robot = MyRobot::init('127.0.0.1', 8090);//如果在机器人本机运行，修改为127.0.0.1或者localhost，若外网访问改为运行机器人的服务器外网ip
+$robot = MyRobot::getInstance('127.0.0.1', 8090);//如果在机器人本机运行，修改为127.0.0.1或者localhost，若外网访问改为运行机器人的服务器外网ip
 if (in_array($action, ['index', 'remote', 'down'])) {
     $robot->$action();
     exit();

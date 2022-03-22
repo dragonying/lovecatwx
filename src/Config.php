@@ -1,5 +1,7 @@
 <?php
 
+namespace dragonYing\lovecatwx;
+
 
 interface Config
 {
@@ -36,7 +38,7 @@ interface Config
     const REQUEST_EVENT_GET_APP_DIR = 'GetAppDir';//取应用目录
     const REQUEST_EVENT_ADD_APP_LOGS = 'AddAppLogs';//添加日志
     const REQUEST_EVENT_RELOAD_APP = 'ReloadApp';//重载插件
-    const REQUEST_EVENT_GET_ROBOT_HEAD_IMG_URL ='GetRobotHeadimgurl';//取登录账号头像
+    const REQUEST_EVENT_GET_ROBOT_HEAD_IMG_URL = 'GetRobotHeadimgurl';//取登录账号头像
     const REQUEST_EVENT_GET_LOGGED_ACCOUNT_LIST = 'GetLoggedAccountList';//取登录账号列表
     const REQUEST_EVENT_GET_ROBOT_NAME = 'GetRobotName';//取登录账号昵称
     const REQUEST_EVENT_SEND_TEXT_MSG = 'SendTextMsg';//发送文本消息

@@ -3,16 +3,23 @@
 
 namespace dragonYing\lovecatwx;
 
+use dragonYing\lovecatwx\Config;
 
-class Wx extends \Base
+class WxMsg implements Config
 {
-    protected $event = null;
-    protected $robot_wxid = null;
-    protected $to_wxid = null;
-    protected $member_wxid = null;
-    protected $member_name = null;
-    protected $group_wxid = null;
-    protected $msg = null;
+    private $event = null;
+    private $robot_wxid = null;
+    private $to_wxid = null;
+    private $member_wxid = null;
+    private $member_name = null;
+    private $group_wxid = null;
+    private $msg = null;
+
+    public function __get($name)
+    {
+        return property_exists($this, $name) ? $this->$name : null;
+    }
+
 
     /**
      * 重置参数
@@ -20,7 +27,7 @@ class Wx extends \Base
     protected function resetParam()
     {
         foreach (array_keys($this->getParam()) as $k) {
-            $this->$k = null;
+            property_exists($this, $k) && $this->$k = null;
         }
     }
 
@@ -36,7 +43,7 @@ class Wx extends \Base
             "member_wxid" => $this->member_wxid,
             "member_name" => $this->member_name,
             "group_wxid" => $this->group_wxid,
-            "msg" => $this->msg
+            "msg" => is_string($this->msg) ? $this->formatEmoji($this->msg) : $this->msg
         ];
     }
 
@@ -45,6 +52,7 @@ class Wx extends \Base
     public function getAppInfo()
     {
         $this->event = self::REQUEST_EVENT_GET_APP_INFO;
+        return $this;
     }
 
 
@@ -55,6 +63,7 @@ class Wx extends \Base
     {
         $this->event = self::REQUEST_EVENT_GET_ROBOT_NAME;
         $this->robot_wxid = $robotId;
+        return $this;
     }
 
     /**获取账户头像
@@ -64,6 +73,7 @@ class Wx extends \Base
     {
         $this->event = self::REQUEST_EVENT_GET_ROBOT_HEAD_IMG_URL;
         $this->robot_wxid = $robotId;
+        return $this;
     }
 
 
@@ -76,6 +86,7 @@ class Wx extends \Base
         $this->event = self::REQUEST_EVENT_GET_GROUP_LIST;
         $this->robot_wxid = $robotId;
         $this->msg = ['is_refresh' => $fresh];
+        return $this;
     }
 
     /**发送文本消息
@@ -87,6 +98,7 @@ class Wx extends \Base
         $this->robot_wxid = $robotId;
         $this->event = self::REQUEST_EVENT_SEND_TEXT_MSG;
         $this->msg = $msg;
+        return $this;
     }
 
     /**发送图片消息
@@ -104,6 +116,7 @@ class Wx extends \Base
             'url' => $url,
             'patch' => $patch
         ];
+        return $this;
     }
 
     /**发送动态表情
@@ -122,6 +135,7 @@ class Wx extends \Base
             'url' => $url,
             'patch' => $patch
         ];
+        return $this;
     }
 
     /**发送群消息并艾特
@@ -138,6 +152,7 @@ class Wx extends \Base
         $this->member_wxid = $memberId;
         $this->msg = $msg;
         $this->event = self::REQUEST_EVENT_SEND_GROUP_MSG_AND_AT;
+        return $this;
     }
 
     /**发送链接消息
@@ -161,6 +176,7 @@ class Wx extends \Base
             "icon_url" => $iconUrl,
             "pic_url" => $picUrl
         ];
+        return $this;
     }
 
     /**发送音乐
@@ -178,6 +194,7 @@ class Wx extends \Base
             'name' => $music,
             'type' => $type
         ];
+        return $this;
     }
 
 
@@ -192,6 +209,7 @@ class Wx extends \Base
         $this->to_wxid = $toId;
         $this->event = self::REQUEST_EVENT_SEND_MINI_APP;
         $this->msg = $msg;
+        return $this;
     }
 
     /**
@@ -207,6 +225,7 @@ class Wx extends \Base
             "is_refresh" => $fresh,
             "out_rawdata" => $rawData
         ];
+        return $this;
     }
 
     /**获取群成员列表
@@ -222,6 +241,7 @@ class Wx extends \Base
         $this->msg = [
             "is_refresh" => $fresh
         ];
+        return $this;
     }
 
 
@@ -240,6 +260,7 @@ class Wx extends \Base
         $this->msg = [
             "is_refresh" => $fresh
         ];
+        return $this;
     }
 
 
@@ -254,6 +275,7 @@ class Wx extends \Base
         $this->to_wxid = $toId;
         $this->event = self::REQUEST_EVENT_ACCEPT_TRANSFER;
         $this->msg = $msg;
+        return $this;
     }
 
     /**修改备注
@@ -267,6 +289,7 @@ class Wx extends \Base
         $this->to_wxid = $toId;
         $this->msg = $msg;
         $this->event = self::REQUEST_EVENT_EDIT_FRIEND_NOTE;
+        return $this;
     }
 
 
@@ -279,6 +302,7 @@ class Wx extends \Base
         $this->robot_wxid = $robotId;
         $this->to_wxid = $toId;
         $this->event = self::REQUEST_EVENT_DELETE_FRIEND;
+        return $this;
     }
 
     /**邀请群成员
@@ -292,6 +316,7 @@ class Wx extends \Base
         $this->to_wxid = $toId;
         $this->group_wxid = $groupId;
         $this->event = self::REQUEST_EVENT_INVITE_IN_GROUP;
+        return $this;
     }
 
 
@@ -306,6 +331,48 @@ class Wx extends \Base
         $this->to_wxid = $toId;
         $this->group_wxid = $groupId;
         $this->event = self::REQUEST_EVENT_REMOVE_GROUP_MEMBER;
+        return $this;
+    }
+
+    /**自定义消息
+     * @param $event
+     * @param null $robotId
+     * @param null $toId
+     * @param null $memberId
+     * @param null $memberName
+     * @param null $groupId
+     * @param null $msg
+     */
+    public function sendCustomMsg($event, $robotId = null, $toId = null, $memberId = null, $memberName = null, $groupId = null, $msg = null)
+    {
+        $this->event = $event;
+        $this->robot_wxid = $robotId;
+        $this->to_wxid = $toId;
+        $this->member_wxid = $memberId;
+        $this->member_name = $memberName;
+        $this->group_wxid = $groupId;
+        $this->msg = $msg;
+        return $this;
+    }
+
+
+    /**格式化带emoji的消息，格式化为可爱猫可展示的表情
+     * @param string $str 包含emoji表情的文本
+     * @return string 拼接完成以后的字符串
+     */
+    public function formatEmoji($str)
+    {
+        $strEncode = '';
+        $length = mb_strlen($str, 'utf-8');
+        for ($i = 0; $i < $length; $i++) {
+            $_tmpStr = mb_substr($str, $i, 1, 'utf-8');
+            if (strlen($_tmpStr) >= 4) {
+                $strEncode .= '[@emoji=' . trim(json_encode($_tmpStr), '"') . ']';
+            } else {
+                $strEncode .= $_tmpStr;
+            }
+        }
+        return $strEncode;
     }
 
 }

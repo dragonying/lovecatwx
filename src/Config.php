@@ -68,4 +68,20 @@ interface Config
     const REQUEST_EVENT_BUILD_NEW_GROUP = 'BuildNewGroup';//建立新群
     const REQUEST_EVENT_QUIT_GROUP = 'QuitGroup';//退出群聊
 
+
+    /***************** 扫付款码事件场景 **************** 扫付款码事件场景 *****************************/
+    const EVENT_SCAN_CASH_MONEY_SCENE_IN_PAYING = 1;//进入二维码支付
+    const EVENT_SCAN_CASH_MONEY_SCENE_UN_PAY = -1;//未支付，已退出二维码支付
+    const EVENT_SCAN_CASH_MONEY_SCENE_PAY_SUCCESS = 2;//扫码支付成功
+    const EVENT_SCAN_CASH_MONEY_SCENE_GET_MONEY = 3;//个人收款完成
+
+    /***************** 红包转账事件场景 **************** 红包转账事件场景 *****************************/
+
+    const RESPONSE_EVENT_RECEIVED_TRANSFER_PAY_TYPE_MY_SEND = '7';// 自己发出转账
+    const RESPONSE_EVENT_RECEIVED_TRANSFER_PAY_TYPE_BE_RECEIVED = '5';// 自己发出的转账被接收
+    const RESPONSE_EVENT_RECEIVED_TRANSFER_PAY_TYPE_BE_SEND = '1';// 自己收到转账 但没有接收
+    const RESPONSE_EVENT_RECEIVED_TRANSFER_PAY_TYPE_MY_RECEIVED = '3';// 自己收到转账 且已收款
+
+
+
 }

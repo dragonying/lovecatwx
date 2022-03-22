@@ -166,7 +166,7 @@ abstract class  WxRobot extends WxMsg
     }
 
     //自己实现处理消息
-    abstract function dealRequest($request);
+    abstract protected function dealRequest(array $request);
 
 
     /**

@@ -55,6 +55,32 @@ class WxMsg implements Config
         return $this;
     }
 
+    /**取应用目录
+     */
+    public function getAppDir()
+    {
+        $this->event = self::REQUEST_EVENT_GET_APP_DIR;
+        return $this;
+    }
+
+    /**添加日志
+     * @param $msg
+     */
+    public function addAppLogs($msg)
+    {
+        $this->event = self::REQUEST_EVENT_ADD_APP_LOGS;
+        $this->msg = $msg;
+        return $this;
+    }
+
+    /**重载插件
+     */
+    public function reloadApp()
+    {
+        $this->event = self::REQUEST_EVENT_RELOAD_APP;
+        return $this;
+    }
+
 
     /**获取账户昵称
      * @param $robotId
@@ -76,6 +102,13 @@ class WxMsg implements Config
         return $this;
     }
 
+    /**取登录账号列表
+     */
+    public function getLoggedAccountList()
+    {
+        $this->event = self::REQUEST_EVENT_GET_LOGGED_ACCOUNT_LIST;
+        return $this;
+    }
 
     /**获取群列表
      * @param $robotId
@@ -112,7 +145,43 @@ class WxMsg implements Config
         $this->to_wxid = $toId;
         $this->event = self::REQUEST_EVENT_SEND_IMAGE_MSG;
         $this->msg = [
-            'name' => md5(uniqid(mt_rand(1111, 99999999))),
+            'name' => md5($url ? $url : $patch),
+            'url' => $url,
+            'patch' => $patch
+        ];
+        return $this;
+    }
+
+    /**发送文件消息
+     * @param $robotId
+     * @param null $url
+     * @param null $patch
+     */
+    public function sendFileMsg($robotId, $toId, $url = null, $patch = null)
+    {
+        $this->robot_wxid = $robotId;
+        $this->to_wxid = $toId;
+        $this->event = self::REQUEST_EVENT_SEND_FILE_MSG;
+        $this->msg = [
+            'name' => md5($url ? $url : $patch),
+            'url' => $url,
+            'patch' => $patch
+        ];
+        return $this;
+    }
+
+    /**发送视频消息
+     * @param $robotId
+     * @param null $url
+     * @param null $patch
+     */
+    public function sendVideoMsg($robotId, $toId, $url = null, $patch = null)
+    {
+        $this->robot_wxid = $robotId;
+        $this->to_wxid = $toId;
+        $this->event = self::REQUEST_EVENT_SEND_VIDEO_MSG;
+        $this->msg = [
+            'name' => md5($url ? $url : $patch),
             'url' => $url,
             'patch' => $patch
         ];
@@ -197,6 +266,20 @@ class WxMsg implements Config
         return $this;
     }
 
+    /**发送名片消息
+     * @param $robotId
+     * @param $toId
+     * @param $msg
+     */
+    public function sendCardMsg($robotId, $toId, $msg)
+    {
+        $this->robot_wxid = $robotId;
+        $this->to_wxid = $toId;
+        $this->event = self::REQUEST_EVENT_SEND_CARD_MSG;
+        $this->msg = $msg;
+        return $this;
+    }
+
 
     /***发送小程序
      * @param $robotId
@@ -263,6 +346,46 @@ class WxMsg implements Config
         return $this;
     }
 
+    /**同意群聊邀请
+     * @param $robotId
+     * @param $msg
+     */
+    public function agreeGroupInvite($robotId, $msg)
+    {
+        $this->robot_wxid = $robotId;
+        $this->event = self::REQUEST_EVENT_AGREE_GROUP_INVITE;
+        $this->msg = $msg;
+        return $this;
+    }
+
+    /**修改群名称
+     * @param $robotId
+     * @param $groupId
+     * @param $msg
+     */
+    public function editGroupName($robotId, $groupId, $msg)
+    {
+        $this->robot_wxid = $robotId;
+        $this->group_wxid = $groupId;
+        $this->event = self::REQUEST_EVENT_EDIT_GROUP_NAME;
+        $this->msg = $msg;
+        return $this;
+    }
+
+    /**修改群公告
+     * @param $robotId
+     * @param $groupId
+     * @param $msg
+     */
+    public function editGroupNotice($robotId, $groupId, $msg)
+    {
+        $this->robot_wxid = $robotId;
+        $this->group_wxid = $groupId;
+        $this->event = self::REQUEST_EVENT_EDIT_GROUP_NOTICE;
+        $this->msg = $msg;
+        return $this;
+    }
+
 
     /**接收好友转账
      * @param $robotId
@@ -274,6 +397,18 @@ class WxMsg implements Config
         $this->robot_wxid = $robotId;
         $this->to_wxid = $toId;
         $this->event = self::REQUEST_EVENT_ACCEPT_TRANSFER;
+        $this->msg = $msg;
+        return $this;
+    }
+
+    /**同意好友请求
+     * @param $robotId
+     * @param $msg
+     */
+    public function agreeFriendVerify($robotId, $msg)
+    {
+        $this->robot_wxid = $robotId;
+        $this->event = self::REQUEST_EVENT_AGREE_FRIEND_VERIFY;
         $this->msg = $msg;
         return $this;
     }
@@ -316,6 +451,32 @@ class WxMsg implements Config
         $this->to_wxid = $toId;
         $this->group_wxid = $groupId;
         $this->event = self::REQUEST_EVENT_INVITE_IN_GROUP;
+        return $this;
+    }
+
+    /**建立新群
+     * @param $robotId
+     * @param $msg 好友Id用"|"分割
+     */
+    public function buildNewGroup($robotId, $msg)
+    {
+        $this->robot_wxid = $robotId;
+        $this->msg = $msg;
+        $this->event = self::REQUEST_EVENT_BUILD_NEW_GROUP;
+        return $this;
+    }
+
+
+    /**退出群聊
+     * @param $robotId
+     * @param $groupId
+     * @return $this
+     */
+    public function quitGroup($robotId, $groupId)
+    {
+        $this->robot_wxid = $robotId;
+        $this->group_wxid = $groupId;
+        $this->event = self::REQUEST_EVENT_QUIT_GROUP;
         return $this;
     }
 

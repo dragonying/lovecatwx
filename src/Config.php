@@ -27,8 +27,9 @@ interface Config
     const MSG_TYPE_EMOJI = 47;//动态表情
     const MSG_TYPE_POSITION = 48;//地理位置
     const MSG_TYPE_SHARE_LINK = 49;//分享链接
+    const MSG_TYPE_SEND_MONEY = 10000;//发出红包
     const MSG_TYPE_TRANSFER = 2000;//转账
-    const MSG_TYPE_MONEY = 2001;//红包
+    const MSG_TYPE_MONEY = 2001;//收到红包
     const MSG_TYPE_MINI_APP = 2002;//小程序
     const MSG_TYPE_GROUP_INVITE = 2003;//群邀请
 

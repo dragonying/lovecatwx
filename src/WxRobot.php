@@ -69,6 +69,13 @@ abstract class  WxRobot extends WxMsg
         return $this->robotMsg;
     }
 
+    /**获取返回结果
+     * @return null
+     */
+    public function getResult(){
+        return $this->resResult;
+    }
+
     /**获取url
      * @return string
      */
